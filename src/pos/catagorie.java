@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -228,24 +230,35 @@ public class catagorie extends javax.swing.JFrame {
         String category = txtcat.getText();
         String status = txtstatus.getSelectedItem().toString();
 
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-            pst = con1.prepareStatement("insert into category (categorie, status)values(?,?) ");
-            pst.setString(1, category);
-            pst.setString(2, status);
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Category Added Successfully!");
-      
-            txtcat.setText("");
-            txtstatus.setSelectedIndex(-1);
-            txtcat.requestFocus();
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+        if (!category.isEmpty()){
+            Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+            Matcher matcher = pattern.matcher(category);
+            boolean containsSpecialChar = matcher.find();
+            if (!containsSpecialChar) {
+                try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("insert into category (categorie, status)values(?,?) ");
+                pst.setString(1, category);
+                pst.setString(2, status);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Category Added Successfully!");
+
+                txtcat.setText("");
+                txtstatus.setSelectedIndex(-1);
+                txtcat.requestFocus();
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+            else {
+                JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "ERROR! category field can not be Empty.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
