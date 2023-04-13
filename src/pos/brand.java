@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Samee
  */
-public class catagorie extends javax.swing.JFrame {
+public class brand extends javax.swing.JFrame {
 
     /**
      * Creates new form catagorie
      */
-    public catagorie() {
+    public brand() {
         initComponents();
         update_table();
     }
@@ -42,7 +42,7 @@ public class catagorie extends javax.swing.JFrame {
         try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("select * from category");
+                pst = con1.prepareStatement("select * from brand");
                 
                 ResultSet rs = pst.executeQuery();
                 
@@ -56,7 +56,7 @@ public class catagorie extends javax.swing.JFrame {
                     Vector v2 = new Vector();
                     for( int i=1 ;i<=c; i++){
                         v2.add(rs.getString("id"));
-                        v2.add(rs.getString("category"));
+                        v2.add(rs.getString("brand"));
                         v2.add(rs.getString("status"));
                     }
                     d.addRow(v2);
@@ -64,9 +64,9 @@ public class catagorie extends javax.swing.JFrame {
                 }
                 
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -80,7 +80,7 @@ public class catagorie extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtcat = new javax.swing.JTextField();
+        txtbrand = new javax.swing.JTextField();
         txtstatus = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -138,15 +138,15 @@ public class catagorie extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Categorie", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Brand", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        jLabel6.setText("Categorie");
+        jLabel6.setText("Brand: ");
 
-        jLabel7.setText("Status");
+        jLabel7.setText("Status: ");
 
-        txtcat.addActionListener(new java.awt.event.ActionListener() {
+        txtbrand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtcatActionPerformed(evt);
+                txtbrandActionPerformed(evt);
             }
         });
 
@@ -196,7 +196,7 @@ public class catagorie extends javax.swing.JFrame {
                             .addComponent(jLabel7))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtcat)
+                            .addComponent(txtbrand)
                             .addComponent(txtstatus, 0, 257, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(89, 89, 89)
@@ -216,7 +216,7 @@ public class catagorie extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtcat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtbrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -236,7 +236,7 @@ public class catagorie extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Categorie", "Status"
+                "Id", "Brand", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -255,7 +255,7 @@ public class catagorie extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setText("Category");
+        jLabel5.setText("Brand");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -281,16 +281,14 @@ public class catagorie extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 18, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 26, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -317,37 +315,37 @@ public class catagorie extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Add button
         
-        String category = txtcat.getText();
+        String brand = txtbrand.getText();
         String status = txtstatus.getSelectedItem().toString();
 
-        if (!category.isEmpty()){
+        if (!brand.isEmpty()){
             String regex = "^[a-zA-Z0-9\\s]+$";
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(category);
+            Matcher matcher = pattern.matcher(brand);
             boolean matches = matcher.matches();
             
             if (matches) {
                 try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("insert into category (category, status)values(?,?) ");
-                pst.setString(1, category);
+                pst = con1.prepareStatement("insert into brand (brand, status)values(?,?) ");
+                pst.setString(1, brand);
                 pst.setString(2, status);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Category Added Successfully!");
+                JOptionPane.showMessageDialog(null, "Brand Added Successfully!");
                 update_table();
-                txtcat.setText("");
-                txtcat.requestFocus();
+                txtbrand.setText("");
+                txtbrand.requestFocus();
                 txtstatus.setSelectedIndex(0);
 
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } 
             else {
-                JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
+                JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in Brand Name");            }    
         }
         else{
             JOptionPane.showMessageDialog(null, "ERROR! category field can not be Empty.");
@@ -361,36 +359,36 @@ public class catagorie extends javax.swing.JFrame {
         
         if (selectedIndex != -1){
             int id = Integer.parseInt(d1.getValueAt((selectedIndex), 0).toString());
-            String category = txtcat.getText();
+            String brand = txtbrand.getText();
             String status = txtstatus.getSelectedItem().toString();
-            if (!category.isEmpty() && !status.isEmpty()){
+            if (!brand.isEmpty() && !status.isEmpty()){
                 String regex = "^[a-zA-Z0-9\\s]+$";
                 Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(category);
+                Matcher matcher = pattern.matcher(brand);
                 boolean matches = matcher.matches();
 
                 if (matches) {
                     try {
                     Class.forName("com.mysql.jdbc.Driver");
                     con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                    pst = con1.prepareStatement("update category set category=?,status=? where id =?");
-                    pst.setString(1, category);
+                    pst = con1.prepareStatement("update category set brand=?,status=? where id =?");
+                    pst.setString(1, brand);
                     pst.setString(2, status);
                     pst.setInt(3, id);
                     pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Category Updated Successful!");
+                    JOptionPane.showMessageDialog(null, "Brand Updated Successful!");
                     update_table();
-                    txtcat.setText("");
-                    txtcat.requestFocus();
+                    txtbrand.setText("");
+                    txtbrand.requestFocus();
 
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SQLException ex) {
-                        Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } 
                 else {
-                    JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
+                    JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in Brand name!");            }    
             }
             else{
                 JOptionPane.showMessageDialog(null, "ERROR! category field can not be Empty.");
@@ -407,7 +405,7 @@ public class catagorie extends javax.swing.JFrame {
         // Selects the row when clicked through mouse
         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         int selectedIndex = jTable1.getSelectedRow();
-        txtcat.setText(d1.getValueAt(selectedIndex, 1).toString());
+        txtbrand.setText(d1.getValueAt(selectedIndex, 1).toString());
         txtstatus.setSelectedItem(d1.getValueAt(selectedIndex,2).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -421,26 +419,26 @@ public class catagorie extends javax.swing.JFrame {
         if (selectedIndex != -1){
         // TO CONFIRM IF WANT TO DELETE OR NOT
         int id = Integer.parseInt(d1.getValueAt((selectedIndex), 0).toString());
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to delete category?", "Warning", JOptionPane.YES_NO_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to delete this Brand?", "Warning", JOptionPane.YES_NO_OPTION);
         
         //IF YES THE RUN DELETE QUERY
         if(dialogResult == JOptionPane.YES_OPTION){
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("delete from category where id= ?");
+                pst = con1.prepareStatement("delete from brand where id= ?");
                 pst.setInt(1, id);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Category Deleted Successfully!");
                 update_table();
-                txtcat.setText("");
-                txtcat.requestFocus();
+                txtbrand.setText("");
+                txtbrand.requestFocus();
                 txtstatus.setSelectedIndex(0);
 
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(catagorie.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(brand.class.getName()).log(Level.SEVERE, null, ex);
                 }
         }
         }
@@ -449,16 +447,16 @@ public class catagorie extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void txtcatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcatActionPerformed
+    private void txtbrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbrandActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtcatActionPerformed
+    }//GEN-LAST:event_txtbrandActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // Refresh the whole panel
         
         update_table();
-        txtcat.setText("");
-        txtcat.requestFocus();
+        txtbrand.setText("");
+        txtbrand.requestFocus();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
@@ -478,20 +476,21 @@ public class catagorie extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(catagorie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(catagorie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(catagorie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(catagorie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(brand.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new catagorie().setVisible(true);
+                new brand().setVisible(true);
             }
         });
     }
@@ -513,7 +512,7 @@ public class catagorie extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtcat;
+    private javax.swing.JTextField txtbrand;
     private javax.swing.JComboBox<String> txtstatus;
     // End of variables declaration//GEN-END:variables
 }
