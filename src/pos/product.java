@@ -25,11 +25,55 @@ public class product extends javax.swing.JFrame {
     public product() {
         initComponents();
         update_table();
+        category();
+        brand();
+        vendor();
     }
     
     Connection con1;
     PreparedStatement pst;
 
+    public class categoryItem {
+        int id;
+        String name;
+        
+        public categoryItem(int id, String name){
+            this.id = id;
+            this.name = name;
+        }
+        public String toString(){
+            return this.name;
+        }
+    }
+    
+    public class brandItem {
+        int id;
+        String name;
+        
+        public brandItem(int id, String name){
+            this.id = id;
+            this.name = name;
+        }
+        public String toString(){
+            return this.name;
+        }
+    }
+    
+    public class vendorItem {
+        int id;
+        String name;
+        
+        public vendorItem(int id, String name){
+            this.id = id;
+            this.name = name;
+        }
+        public String toString(){
+            return this.name;
+        }
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,12 +81,72 @@ public class product extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
+    
+    
+    private void category(){
+        try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("select * from category");
+                
+                ResultSet rs = pst.executeQuery();
+                
+                while(rs.next()){
+                    txtcategory.addItem(new categoryItem(rs.getInt(1), rs.getString(2)));
+                }
+                
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
+    private void brand(){
+        try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("select * from brand");
+                
+                ResultSet rs = pst.executeQuery();
+                
+                while(rs.next()){
+                    txtbrand.addItem(new brandItem(rs.getInt(1), rs.getString(2)));
+                }
+                
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
+    private void  vendor(){
+        try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("select * from vendor");
+                
+                ResultSet rs = pst.executeQuery();
+                
+                while(rs.next()){
+                    txtvendor.addItem(new vendorItem(rs.getInt(1), rs.getString(2)));
+                }
+                
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
+    
     private void update_table(){
         int c;
         try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("select * from category");
+                pst = con1.prepareStatement("select * from product");
                 
                 ResultSet rs = pst.executeQuery();
                 
@@ -56,7 +160,15 @@ public class product extends javax.swing.JFrame {
                     Vector v2 = new Vector();
                     for( int i=1 ;i<=c; i++){
                         v2.add(rs.getString("id"));
-                        v2.add(rs.getString("category"));
+                        v2.add(rs.getString("product"));
+                        v2.add(rs.getString("description"));
+                        v2.add(rs.getString("cat_id"));
+                        v2.add(rs.getString("brand_id"));
+                        v2.add(rs.getString("cost)_price"));
+                        v2.add(rs.getString("retail_price"));
+                        v2.add(rs.getString("vendor_id"));
+                        v2.add(rs.getString("qty"));
+                        v2.add(rs.getString("barcode"));
                         v2.add(rs.getString("status"));
                     }
                     d.addRow(v2);
@@ -77,6 +189,7 @@ public class product extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -90,15 +203,15 @@ public class product extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtdescription = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
-        txtcategory = new javax.swing.JComboBox<>();
+        txtcategory = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
-        txtbrand = new javax.swing.JComboBox<>();
+        txtbrand = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
         txtcost = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txtprice = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        txtvendor = new javax.swing.JComboBox<>();
+        txtvendor = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
         txtquantity = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
@@ -115,18 +228,42 @@ public class product extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Category");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("POS");
+        jLabel2.setText("Vendor");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Brand");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Product");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("POS");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,10 +273,15 @@ public class product extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,6 +295,11 @@ public class product extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(263, 263, 263)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(394, Short.MAX_VALUE)))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Product", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -208,11 +355,7 @@ public class product extends javax.swing.JFrame {
 
         jLabel9.setText("Category:");
 
-        txtcategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel10.setText("Brand:");
-
-        txtbrand.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel11.setText("Cost price: ");
 
@@ -224,9 +367,13 @@ public class product extends javax.swing.JFrame {
 
         jLabel12.setText("Retail price: ");
 
-        jLabel13.setText("Vendor: ");
+        txtprice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpriceActionPerformed(evt);
+            }
+        });
 
-        txtvendor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel13.setText("Vendor: ");
 
         jLabel14.setText("Quantity: ");
 
@@ -429,34 +576,51 @@ public class product extends javax.swing.JFrame {
         
         String product = txtproduct.getText();
         String description = txtdescription.getText();
-        String category = txtcategory.getSelectedItem().toString();
-        String brand = txtbrand.getSelectedItem().toString();
-        Long cost = Long.parseLong(txtcost.getText());
-        Long price = Long.parseLong(txtprice.getText());
-        String vendor = txtvendor.getSelectedItem().toString();
+        categoryItem category = (categoryItem)txtcategory.getSelectedItem();
+        brandItem brand = (brandItem)txtbrand.getSelectedItem();
+        int cost = Integer.parseInt(txtcost.getText());
+        int price = Integer.parseInt(txtprice.getText());
+        vendorItem vendor = (vendorItem)txtvendor.getSelectedItem();
         int quantity = Integer.parseInt(txtquantity.toString());
         int bar = Integer.parseInt(txtbar.getText());
         String status = txtstatus.getSelectedItem().toString();
 
-        if (!category.isEmpty()){
+        if (!product.isEmpty()){
             String regex = "^[a-zA-Z0-9\\s]+$";
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(category);
+            Matcher matcher = pattern.matcher(product);
             boolean matches = matcher.matches();
             
             if (matches) {
                 try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("insert into category (category, status)values(?,?) ");
-                pst.setString(1, category);
-                pst.setString(2, status);
+                pst = con1.prepareStatement("insert into product (product, description, cat_id, brand_id, cost_price, retail_price, vendor_id, qty, barcode, status)values(?,?,?,?,?,?,?,?,?,?) ");
+                pst.setString(1, product);
+                pst.setString(2, description);
+                pst.setInt(3, category.id);
+                pst.setInt(4, brand.id);
+                pst.setInt(5, cost);
+                pst.setInt(6, price);
+                pst.setInt(7, vendor.id);
+                pst.setInt(8, quantity);
+                pst.setInt(9, bar);
+                pst.setString(10, status);
+                
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Category Added Successfully!");
+                JOptionPane.showMessageDialog(null, "Product Added Successfully!");
                 update_table();
                 txtproduct.setText("");
-                txtproduct.requestFocus();
+                txtdescription.setText("");
+                txtcategory.setSelectedIndex(0);
+                txtbrand.setSelectedIndex(0);
+                txtcost.setText("");
+                txtprice.setText("");
+                txtvendor.setSelectedIndex(0);
+                txtquantity.setText("");
+                txtbar.setText("");
                 txtstatus.setSelectedIndex(0);
+                txtproduct.requestFocus();
 
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
@@ -591,6 +755,39 @@ public class product extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtbarActionPerformed
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        catagorie c = new catagorie();
+        this.hide();
+        c.setVisible(true);
+        
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        brand c = new brand();
+        this.hide();
+        c.setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        product c = new product();
+        this.hide();
+        c.setVisible(true);
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        vendor c = new vendor();
+        this.hide();
+        c.setVisible(true);
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtpriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpriceActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -639,6 +836,7 @@ public class product extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -654,14 +852,14 @@ public class product extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtbar;
-    private javax.swing.JComboBox<String> txtbrand;
-    private javax.swing.JComboBox<String> txtcategory;
+    private javax.swing.JComboBox txtbrand;
+    private javax.swing.JComboBox txtcategory;
     private javax.swing.JTextField txtcost;
     private javax.swing.JTextArea txtdescription;
     private javax.swing.JTextField txtprice;
     private javax.swing.JTextField txtproduct;
     private javax.swing.JTextField txtquantity;
     private javax.swing.JComboBox<String> txtstatus;
-    private javax.swing.JComboBox<String> txtvendor;
+    private javax.swing.JComboBox txtvendor;
     // End of variables declaration//GEN-END:variables
 }
