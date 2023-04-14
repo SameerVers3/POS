@@ -381,6 +381,7 @@ public class catagorie extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Category Updated Successful!");
                     update_table();
                     txtcat.setText("");
+                    txtstatus.setSelectedIndex(0);
                     txtcat.requestFocus();
 
                     } catch (ClassNotFoundException ex) {
