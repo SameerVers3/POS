@@ -164,7 +164,7 @@ public class product extends javax.swing.JFrame {
                         v2.add(rs.getString("description"));
                         v2.add(rs.getString("cat_id"));
                         v2.add(rs.getString("brand_id"));
-                        v2.add(rs.getString("cost)_price"));
+                        v2.add(rs.getString("cost_price"));
                         v2.add(rs.getString("retail_price"));
                         v2.add(rs.getString("vendor_id"));
                         v2.add(rs.getString("qty"));
@@ -408,9 +408,9 @@ public class product extends javax.swing.JFrame {
                     .addComponent(txtcategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtproduct, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtbrand, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                     .addComponent(txtcost))
-                .addGap(78, 78, 78)
+                .addGap(77, 77, 77)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
@@ -581,7 +581,7 @@ public class product extends javax.swing.JFrame {
         int cost = Integer.parseInt(txtcost.getText());
         int price = Integer.parseInt(txtprice.getText());
         vendorItem vendor = (vendorItem)txtvendor.getSelectedItem();
-        int quantity = Integer.parseInt(txtquantity.toString());
+        int quantity = Integer.parseInt(txtquantity.getText());
         int bar = Integer.parseInt(txtbar.getText());
         String status = txtstatus.getSelectedItem().toString();
 
@@ -590,46 +590,76 @@ public class product extends javax.swing.JFrame {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(product);
             boolean matches = matcher.matches();
+            if (!description.isEmpty()){
             
-            if (matches) {
-                try {
-                Class.forName("com.mysql.jdbc.Driver");
-                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("insert into product (product, description, cat_id, brand_id, cost_price, retail_price, vendor_id, qty, barcode, status)values(?,?,?,?,?,?,?,?,?,?) ");
-                pst.setString(1, product);
-                pst.setString(2, description);
-                pst.setInt(3, category.id);
-                pst.setInt(4, brand.id);
-                pst.setInt(5, cost);
-                pst.setInt(6, price);
-                pst.setInt(7, vendor.id);
-                pst.setInt(8, quantity);
-                pst.setInt(9, bar);
-                pst.setString(10, status);
-                
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Product Added Successfully!");
-                update_table();
-                txtproduct.setText("");
-                txtdescription.setText("");
-                txtcategory.setSelectedIndex(0);
-                txtbrand.setSelectedIndex(0);
-                txtcost.setText("");
-                txtprice.setText("");
-                txtvendor.setSelectedIndex(0);
-                txtquantity.setText("");
-                txtbar.setText("");
-                txtstatus.setSelectedIndex(0);
-                txtproduct.requestFocus();
+                if (!(category.id < 0)) {
+                    if (!(brand.id < 0)) {
+                        if (cost >= 0 && cost <= 100000) {
+                            if (price >=0 && price <= 1000000) {
+                                if (!(brand.id < 0)) {
+                                    if (quantity >=0 && quantity <=10000) {
+                                        
+                                        if (matches) {
+                                            try {
+                                            Class.forName("com.mysql.jdbc.Driver");
+                                            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                                            pst = con1.prepareStatement("insert into product (product, description, cat_id, brand_id, cost_price,retail_price,vendor_id,qty,barcode,status)values(?,?,?,?,?,?,?,?,?,?) ");
+                                            pst.setString(1, product);
+                                            pst.setString(2, description);
+                                            pst.setInt(3, category.id);
+                                            pst.setInt(4, brand.id);
+                                            pst.setInt(5, cost);
+                                            pst.setInt(6, price);
+                                            pst.setInt(7, vendor.id);
+                                            pst.setInt(8, quantity);
+                                            pst.setInt(9, bar);
+                                            pst.setString(10, status);
 
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                                            pst.executeUpdate();
+                                            JOptionPane.showMessageDialog(null, "Product Added Successfully!");
+                                            update_table();
+                                            txtproduct.setText("");
+                                            txtdescription.setText("");
+                                            txtcategory.setSelectedIndex(0);
+                                            txtbrand.setSelectedIndex(0);
+                                            txtcost.setText("");
+                                            txtprice.setText("");
+                                            txtvendor.setSelectedIndex(0);
+                                            txtquantity.setText("");
+                                            txtbar.setText("");
+                                            txtstatus.setSelectedIndex(0);
+                                            txtproduct.requestFocus();
+
+                                            } catch (ClassNotFoundException ex) {
+                                                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                                            } catch (SQLException ex) {
+                                                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+                                        } 
+                                        else {
+                                            JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "ERROR! Quantity should be in a range of 0 to 10000");
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "ERROR! Add a Vendor first");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "ERROR! price should be in a range of 0 to 1000000");
+                            }
+                        } else{
+                            JOptionPane.showMessageDialog(null, "ERROR! Cost should be in a range of 0 to 100000");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ERROR! Add a Brand first");
+                    }
+                    
+                } else{
+                    JOptionPane.showMessageDialog(null, "ERROR! Add a Category first");
                 }
-            } 
-            else {
-                JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
+            } else {
+            JOptionPane.showMessageDialog(null, "ERROR! Description Cannot be Empty");
+        }
         }
         else{
             JOptionPane.showMessageDialog(null, "ERROR! category field can not be Empty.");

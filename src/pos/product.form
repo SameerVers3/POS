@@ -208,10 +208,10 @@
                       <Component id="txtcategory" max="32767" attributes="0"/>
                       <Component id="txtproduct" alignment="1" max="32767" attributes="0"/>
                       <Component id="txtbrand" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jScrollPane2" alignment="0" pref="261" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" alignment="0" pref="262" max="32767" attributes="0"/>
                       <Component id="txtcost" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
