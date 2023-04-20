@@ -573,18 +573,13 @@ public class product extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Add button
-        
         String product = txtproduct.getText();
         String description = txtdescription.getText();
         categoryItem category = (categoryItem)txtcategory.getSelectedItem();
         brandItem brand = (brandItem)txtbrand.getSelectedItem();
-        int cost = Integer.parseInt(txtcost.getText());
-        int price = Integer.parseInt(txtprice.getText());
+        int cost=-1, price=-1, quantity=-1, bar=-1;
         vendorItem vendor = (vendorItem)txtvendor.getSelectedItem();
-        int quantity = Integer.parseInt(txtquantity.getText());
-        int bar = Integer.parseInt(txtbar.getText());
         String status = txtstatus.getSelectedItem().toString();
-
         if (!product.isEmpty()){
             String regex = "^[a-zA-Z0-9\\s]+$";
             Pattern pattern = Pattern.compile(regex);
@@ -594,6 +589,11 @@ public class product extends javax.swing.JFrame {
             
                 if (!(category.id < 0)) {
                     if (!(brand.id < 0)) {
+                        try {
+                            cost = Integer.parseInt(txtcost.getText());
+                            price = Integer.parseInt(txtprice.getText());
+                            quantity = Integer.parseInt(txtquantity.getText());
+                            bar = Integer.parseInt(txtbar.getText());
                         if (cost >= 0 && cost <= 100000) {
                             if (price >=0 && price <= 1000000) {
                                 if (!(brand.id < 0)) {
@@ -634,7 +634,7 @@ public class product extends javax.swing.JFrame {
                                                 Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
                                             } catch (SQLException ex) {
                                                 Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
-                                            }
+                                            } 
                                         } 
                                         else {
                                             JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
@@ -650,11 +650,15 @@ public class product extends javax.swing.JFrame {
                         } else{
                             JOptionPane.showMessageDialog(null, "ERROR! Cost should be in a range of 0 to 100000");
                         }
+                    
+                        }  catch (NumberFormatException ex){
+                            JOptionPane.showMessageDialog(null, "ERROR! cost, quantity, and bar should be an integer");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "ERROR! Add a Brand first");
                     }
-                    
-                } else{
+                }
+                else{
                     JOptionPane.showMessageDialog(null, "ERROR! Add a Category first");
                 }
             } else {
@@ -662,57 +666,120 @@ public class product extends javax.swing.JFrame {
         }
         }
         else{
-            JOptionPane.showMessageDialog(null, "ERROR! category field can not be Empty.");
+            JOptionPane.showMessageDialog(null, "ERROR! product field can not be Empty.");
         }
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Code to edit data in Category
+        
         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         int selectedIndex = jTable1.getSelectedRow();
-        
+
         if (selectedIndex != -1){
             int id = Integer.parseInt(d1.getValueAt((selectedIndex), 0).toString());
-            String category = txtproduct.getText();
-            String status = txtstatus.getSelectedItem().toString();
-            if (!category.isEmpty() && !status.isEmpty()){
-                String regex = "^[a-zA-Z0-9\\s]+$";
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(category);
-                boolean matches = matcher.matches();
+        String product = txtproduct.getText();
+        String description = txtdescription.getText();
+        categoryItem category = (categoryItem)txtcategory.getSelectedItem();
+        brandItem brand = (brandItem)txtbrand.getSelectedItem();
+        int cost=-1, price=-1, quantity=-1, bar=-1;
+        vendorItem vendor = (vendorItem)txtvendor.getSelectedItem();
+        String status = txtstatus.getSelectedItem().toString();
+        if (!product.isEmpty()){
+            String regex = "^[a-zA-Z0-9\\s]+$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(product);
+            boolean matches = matcher.matches();
+            if (!description.isEmpty()){
+            
+                if (!(category.id < 0)) {
+                    if (!(brand.id < 0)) {
+                        try {
+                            cost = Integer.parseInt(txtcost.getText());
+                            price = Integer.parseInt(txtprice.getText());
+                            quantity = Integer.parseInt(txtquantity.getText());
+                            bar = Integer.parseInt(txtbar.getText());
+                        if (cost >= 0 && cost <= 100000) {
+                            if (price >=0 && price <= 1000000) {
+                                if (!(brand.id < 0)) {
+                                    if (quantity >=0 && quantity <=10000) {
+                                        
+                                        if (matches) {
+                                            try {
+                                            Class.forName("com.mysql.jdbc.Driver");
+                                            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                                            pst = con1.prepareStatement("update category set category=?,status=? where id =?");
+                                            pst = con1.prepareStatement("update product set product=?, description=?, cat_id=?, brand_id=?, cost_price=?,retail_price=?,vendor_id=?,qty=?,barcode=?,status=? where id=?");
+                                            pst.setString(1, product);
+                                            pst.setString(2, description);
+                                            pst.setInt(3, category.id);
+                                            pst.setInt(4, brand.id);
+                                            pst.setInt(5, cost);
+                                            pst.setInt(6, price);
+                                            pst.setInt(7, vendor.id);
+                                            pst.setInt(8, quantity);
+                                            pst.setInt(9, bar);
+                                            pst.setString(10, status);
+                                            pst.setInt(11, id);
 
-                if (matches) {
-                    try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                    pst = con1.prepareStatement("update category set category=?,status=? where id =?");
-                    pst.setString(1, category);
-                    pst.setString(2, status);
-                    pst.setInt(3, id);
-                    pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Category Updated Successful!");
-                    update_table();
-                    txtproduct.setText("");
-                    txtproduct.requestFocus();
+                                            pst.executeUpdate();
+                                            JOptionPane.showMessageDialog(null, "Product Updated Successfully!");
+                                            update_table();
+                                            txtproduct.setText("");
+                                            txtdescription.setText("");
+                                            txtcategory.setSelectedIndex(0);
+                                            txtbrand.setSelectedIndex(0);
+                                            txtcost.setText("");
+                                            txtprice.setText("");
+                                            txtvendor.setSelectedIndex(0);
+                                            txtquantity.setText("");
+                                            txtbar.setText("");
+                                            txtstatus.setSelectedIndex(0);
+                                            txtproduct.requestFocus();
 
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                                            } catch (ClassNotFoundException ex) {
+                                                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                                            } catch (SQLException ex) {
+                                                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                                            } 
+                                        } 
+                                        else {
+                                            JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "ERROR! Quantity should be in a range of 0 to 10000");
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "ERROR! Add a Vendor first");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "ERROR! price should be in a range of 0 to 1000000");
+                            }
+                        } else{
+                            JOptionPane.showMessageDialog(null, "ERROR! Cost should be in a range of 0 to 100000");
+                        }
+                    
+                        }  catch (NumberFormatException ex){
+                            JOptionPane.showMessageDialog(null, "ERROR! cost, quantity, and bar should be an integer");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ERROR! Add a Brand first");
                     }
-                } 
-                else {
-                    JOptionPane.showMessageDialog(null, "ERROR! Special Characters are not allowed in category name!");            }    
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "ERROR! category field can not be Empty.");
-            }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "ERROR! Add a Category first");
+                }
+            } else {
+            JOptionPane.showMessageDialog(null, "ERROR! Description Cannot be Empty");
+        }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "ERROR! product field can not be Empty.");
+        }
         }
         else {
             JOptionPane.showMessageDialog(null, "Error! select a Row to edit");
         }
-        
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -720,7 +787,15 @@ public class product extends javax.swing.JFrame {
         DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         int selectedIndex = jTable1.getSelectedRow();
         txtproduct.setText(d1.getValueAt(selectedIndex, 1).toString());
-        txtstatus.setSelectedItem(d1.getValueAt(selectedIndex,2).toString());
+        txtdescription.setText(d1.getValueAt(selectedIndex,2).toString());
+        txtcategory.setSelectedItem(d1.getValueAt(selectedIndex,3).toString());
+        txtbrand.setSelectedItem(d1.getValueAt(selectedIndex,4).toString());
+        txtcost.setText(d1.getValueAt(selectedIndex,5).toString());
+        txtprice.setText(d1.getValueAt(selectedIndex,6).toString());
+        txtvendor.setSelectedItem(d1.getValueAt(selectedIndex,7).toString());
+        txtquantity.setText(d1.getValueAt(selectedIndex,8).toString());
+        txtbar.setText(d1.getValueAt(selectedIndex,9).toString());
+        txtstatus.setSelectedItem(d1.getValueAt(selectedIndex,10).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -740,14 +815,22 @@ public class product extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("delete from category where id= ?");
+                pst = con1.prepareStatement("delete from product where id= ?");
                 pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Category Deleted Successfully!");
+                JOptionPane.showMessageDialog(null, "Product Deleted Successfully!");
                 update_table();
                 txtproduct.setText("");
-                txtproduct.requestFocus();
+                txtdescription.setText("");
+                txtcategory.setSelectedIndex(0);
+                txtbrand.setSelectedIndex(0);
+                txtcost.setText("");
+                txtprice.setText("");
+                txtvendor.setSelectedIndex(0);
+                txtquantity.setText("");
+                txtbar.setText("");
                 txtstatus.setSelectedIndex(0);
+                txtproduct.requestFocus();
 
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
