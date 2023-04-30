@@ -365,7 +365,7 @@ public class catagorie extends javax.swing.JFrame {
                 try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("insert into category (category, status)values(?,?) ");
+                pst = con1.prepareStatement("insert into category (category, status)values(?,?) ");     //add query 
                 pst.setString(1, category);
                 pst.setString(2, status);
                 pst.executeUpdate();
@@ -408,7 +408,7 @@ public class catagorie extends javax.swing.JFrame {
                     try {
                     Class.forName("com.mysql.jdbc.Driver");
                     con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                    pst = con1.prepareStatement("update category set category=?,status=? where id =?");
+                    pst = con1.prepareStatement("update category set category=?,status=? where id =?");   // update query 
                     pst.setString(1, category);
                     pst.setString(2, status);
                     pst.setInt(3, id);
@@ -464,7 +464,7 @@ public class catagorie extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("delete from category where id= ?");
+                pst = con1.prepareStatement("delete from category where id= ?");      //delete query 
                 pst.setInt(1, id);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Category Deleted Successfully!");
@@ -494,7 +494,8 @@ public class catagorie extends javax.swing.JFrame {
         
         update_table();
         txtcat.setText("");
-        txtcat.requestFocus();
+        txtstatus.setSelectedIndex(0);
+        txtcat.requestFocus(); 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
