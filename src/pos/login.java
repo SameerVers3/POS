@@ -202,7 +202,7 @@ public class login extends javax.swing.JFrame {
         String user = txtuser.getText();
         String  pass = txtpass.getText();
         
-        if (user.equals("sameer") && pass.equals("123")){
+        if (user.equals("Shaheer") && pass.equals("123")){
             catagorie ct = new catagorie();
             this.hide();
             ct.setVisible(true);
