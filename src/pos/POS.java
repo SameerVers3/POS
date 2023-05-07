@@ -4,6 +4,7 @@
  */
 package pos;
 
+import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -815,13 +816,23 @@ public class POS extends javax.swing.JFrame {
     
     
     public  void print(){
+        String need = needtxt.getText();
+        String cashier = cashiertxt.getItemAt(WIDTH);
+        String payment = pay.getItemAt(WIDTH);
+        
+        try {
+            new Receipt(need,cashier,payment,jTable1.getModel()).setVisible(true);
+        } catch (PrinterException ex) {
+            Logger.getLogger(POS.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
+
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         
-        
+        print();
         sales();
         
         
