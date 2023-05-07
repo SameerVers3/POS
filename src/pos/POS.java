@@ -30,42 +30,6 @@ public class POS extends javax.swing.JFrame {
         initComponents(); 
         dateTXT.setText(date.toString());
     }
-    
-    public class brandItem {
-        int id;
-        String name;
-        
-        public brandItem(int id, String name){
-            this.id = id;
-            this.name = name;
-        }
-        public String toString(){
-            return this.name;
-        }
-    }
-    
-    private String brand(int id){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase", "username", "password");
-            String query = "SELECT brand FROM brand WHERE id = ?";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String brand = rs.getString("brand");
-                JOptionPane.showMessageDialog(null, "ID:  " + id + "  brand: " + brand);
-                return brand;
-            } else {
-                // handle no result case
-            }   
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    }
 
     Connection con1;
     PreparedStatement pst;
@@ -80,8 +44,6 @@ public class POS extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -90,15 +52,15 @@ public class POS extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        totaltxt = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        pay = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cashiertxt = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         quantxt = new javax.swing.JLabel();
+        totaltxt = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -112,35 +74,13 @@ public class POS extends javax.swing.JFrame {
         txtbrand = new javax.swing.JLabel();
         bartxt = new javax.swing.JTextField();
         dateTXT = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(null, new java.awt.Color(0, 0, 0)));
-
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "PRODUCT", "PRICE", "QUANTITY"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(51, 51, 51), null, null));
 
@@ -173,22 +113,16 @@ public class POS extends javax.swing.JFrame {
 
         jLabel11.setText("TOTAL");
 
-        totaltxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totaltxtActionPerformed(evt);
-            }
-        });
-
         jLabel12.setText("PAYMENT");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CASH", "CARD" }));
+        pay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CASH", "CARD" }));
 
         jLabel13.setText("CASHIER");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cashiertxt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cashiertxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cashiertxtActionPerformed(evt);
             }
         });
 
@@ -207,16 +141,32 @@ public class POS extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton2.setText("DELETE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jButton3.setText("PAY");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         quantxt.setBackground(new java.awt.Color(233, 249, 242));
         quantxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         quantxt.setForeground(new java.awt.Color(0, 0, 204));
         quantxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         quantxt.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        totaltxt.setBackground(new java.awt.Color(233, 249, 242));
+        totaltxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        totaltxt.setForeground(new java.awt.Color(0, 0, 204));
+        totaltxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        totaltxt.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -236,9 +186,9 @@ public class POS extends javax.swing.JFrame {
                                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, 238, Short.MAX_VALUE)
-                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(totaltxt)))
+                                            .addComponent(cashiertxt, javax.swing.GroupLayout.Alignment.TRAILING, 0, 238, Short.MAX_VALUE)
+                                            .addComponent(pay, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(totaltxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -288,17 +238,17 @@ public class POS extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(totaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pay, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cashiertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(82, 82, 82)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(78, 78, 78))))
@@ -425,18 +375,47 @@ public class POS extends javax.swing.JFrame {
         dateTXT.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         dateTXT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Bar Code", "Product", "ID", "Price", "Quantity", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -452,8 +431,8 @@ public class POS extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -485,31 +464,173 @@ public class POS extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void pos(){
+        int bar;
+        int currentqty = Integer.parseInt(needtxt.getText());
+        int found=0;
+        try {
+            bar = Integer.parseInt(bartxt.getText());
+            if (bar >= 0){
+                int c;
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("select * from product where barcode=?");
+                
+                pst.setString(1, Integer.toString(bar));
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()){
+                    int id = Integer.parseInt(rs.getString("id"));
+                    String product = rs.getString("product");
+                    int brand_id = Integer.parseInt(rs.getString("brand_id"));
+                    int cost = Integer.parseInt(rs.getString("cost_price"));
+                    int price = Integer.parseInt(rs.getString("retail_price"));
+                    int qty = Integer.parseInt(rs.getString("qty"));
+                    int bar_code = Integer.parseInt(rs.getString("barcode"));
+                    String status = rs.getString("status");
+                    
+                    if (status.equals("Active")){
+                        txtbrand.setText(Integer.toString(brand_id));
+                        prodtxt.setText(product);
+                        idtxt.setText(Integer.toString(id));
+                        pricetxt.setText(Integer.toString(price));
+                        quantxt.setText(Integer.toString(qty));
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Product is not Active");
+                    }
+                    
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Bar code Not Found");
+                }
+                
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid Bar code");
+            }
+            
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Only Numbers are allowed in Bar code: ");
+        } catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null, "Bar code can not be empty!");
+        }
+        
+    }
     
     private void bartxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bartxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bartxtActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cashiertxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cashiertxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
-    private void totaltxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totaltxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totaltxtActionPerformed
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
-        int selectedIndex = jTable1.getSelectedRow();
-        pricetxt.setText(d1.getValueAt(selectedIndex, 1).toString());
-        pricetxt.setText(d1.getValueAt(selectedIndex, 2).toString());  
-        needtxt.setText(d1.getValueAt(selectedIndex, 3).toString()); 
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_cashiertxtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int bar = Integer.parseInt(txtbar.getText());
+        DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
+        int qty = Integer.parseInt(needtxt.getText());
+        if (qty > 0){
+            int bar;
+        try {
+            bar = Integer.parseInt(bartxt.getText());
+            if (bar >= 0){
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("select * from product where barcode=?");
+                
+                pst.setString(1, Integer.toString(bar));
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()){
+                    int id = Integer.parseInt(rs.getString("id"));
+                    String product = rs.getString("product");
+                    int brand_id = Integer.parseInt(rs.getString("brand_id"));
+                    int cost = Integer.parseInt(rs.getString("cost_price"));
+                    int price = Integer.parseInt(rs.getString("retail_price"));
+                    int qty1 = Integer.parseInt(rs.getString("qty"));
+                    int bar_code = Integer.parseInt(rs.getString("barcode"));
+                    String status = rs.getString("status");
+                    
+                    if (status.equals("Active")){
+                        if (qty > qty1 ){
+                            JOptionPane.showMessageDialog(null, "Quantity is not Available!, Entered quantity should not exceed: " + qty1);
+                        }
+                        else{
+                            int total = qty*price;
+                            d.addRow(new Object[]{
+                                bar_code,
+                                product,
+                                id,
+                                price,
+                                qty,
+                                total, 
+                            });
+                            
+                            int sum=0;
+                            
+                            for(int i=0; i<jTable1.getRowCount(); i++){
+                                sum += Integer.parseInt(jTable1.getValueAt(i, 5).toString());
+                            }
+                            
+                            totaltxt.setText(Integer.toString(sum));
+                            txtbrand.setText("");
+                            prodtxt.setText("");
+                            idtxt.setText("");
+                            pricetxt.setText("");
+                            quantxt.setText("");
+                            bartxt.setText("");
+                            needtxt.setText("");
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Product is not Active");
+                    }
+                    
+                }
+                else {
+                    
+                    JOptionPane.showMessageDialog(null, "Bar code Not Found");
+                    txtbrand.setText("");
+                    prodtxt.setText("");
+                    idtxt.setText("");
+                    pricetxt.setText("");
+                    quantxt.setText("");
+                    bartxt.setText("");
+                }
+                
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid Bar code");
+            }
+            
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Only Numbers are allowed in Bar code: ");
+        } catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null, "Bar code can not be empty!");
+        }
+        } 
+        else if (qty == 0){
+            JOptionPane.showMessageDialog(null, "Invalid Quantity");   
+            needtxt.setText("");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Invalid Quantity");
+            needtxt.setText("");
+        }
+        
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -519,37 +640,45 @@ public class POS extends javax.swing.JFrame {
         try {
             bar = Integer.parseInt(bartxt.getText());
             if (bar >= 0){
-                int c;
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-                pst = con1.prepareStatement("select * from product");
+                pst = con1.prepareStatement("select * from product where barcode=?");
                 
+                pst.setString(1, Integer.toString(bar));
                 ResultSet rs = pst.executeQuery();
                 
-                while(rs.next()){
-                        int id = Integer.parseInt(rs.getString("id"));
-                        String product = rs.getString("product");
-                        int brand_id = Integer.parseInt(rs.getString("brand_id"));
-                        int cost = Integer.parseInt(rs.getString("cost_price"));
-                        int price = Integer.parseInt(rs.getString("retail_price"));
-                        int qty = Integer.parseInt(rs.getString("qty"));
-                        int bar_code = Integer.parseInt(rs.getString("barcode"));
-                        String status = rs.getString("status");
-                        if (bar == bar_code){
-                            if (status.equals("Active")){
-                                txtbrand.setText(Integer.toString(brand_id));
-                                prodtxt.setText(product);
-                                idtxt.setText(Integer.toString(id));
-                                pricetxt.setText(Integer.toString(price));
-                                quantxt.setText(Integer.toString(qty));
-                                break;
-                            }
-                            else {
-                                JOptionPane.showMessageDialog(null, "Product is not Active");
-                                break;
-                            }
-                        }
+                if (rs.next()){
+                    int id = Integer.parseInt(rs.getString("id"));
+                    String product = rs.getString("product");
+                    int brand_id = Integer.parseInt(rs.getString("brand_id"));
+                    int cost = Integer.parseInt(rs.getString("cost_price"));
+                    int price = Integer.parseInt(rs.getString("retail_price"));
+                    int qty = Integer.parseInt(rs.getString("qty"));
+                    int bar_code = Integer.parseInt(rs.getString("barcode"));
+                    String status = rs.getString("status");
+                    
+                    if (status.equals("Active")){
+                        txtbrand.setText(Integer.toString(brand_id));
+                        prodtxt.setText(product);
+                        idtxt.setText(Integer.toString(id));
+                        pricetxt.setText(Integer.toString(price));
+                        quantxt.setText(Integer.toString(qty));
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Product is not Active");
+                    }
+                    
+                }
+                else {
+                    
+                    JOptionPane.showMessageDialog(null, "Bar code Not Found");
+                    txtbrand.setText("");
+                    prodtxt.setText("");
+                    idtxt.setText("");
+                    pricetxt.setText("");
+                    quantxt.setText("");
+                    bartxt.setText("");
                 }
                 
                 } catch (ClassNotFoundException ex) {
@@ -573,6 +702,120 @@ public class POS extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
+        d.removeRow(jTable1.getSelectedRow());
+        
+        int sum=0;
+                            
+        for(int i=0; i<jTable1.getRowCount(); i++){
+            sum += Integer.parseInt(jTable1.getValueAt(i, 5).toString());
+        }
+        
+        totaltxt.setText(Integer.toString(sum));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void sales(){
+        String dat = date.toString();
+        String total = totaltxt.getText();
+        String paymethod = pay.getSelectedItem().toString();
+        String cashier = cashiertxt.getSelectedItem().toString();
+        int lastInsertId = 0;
+        try {
+                Class.forName("com.mysql.jdbc.Driver");
+                con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+                pst = con1.prepareStatement("insert into sales (date, total, method, cashier)values(?,?,?,?) ");
+                pst.setString(1, dat);
+                pst.setString(2, total);
+                pst.setString(3, paymethod);
+                pst.setString(4, cashier);
+                pst.executeUpdate();
+                
+                ResultSet generatedKeyResult = pst.getGeneratedKeys();
+                
+                if (generatedKeyResult.next()){
+                    lastInsertId = generatedKeyResult.getInt(1);
+                }
+                int rows = jTable1.getRowCount();
+                pst = con1.prepareStatement("insert into sales_product (sales_id, product_id, sell_price, qty, total) values(?,?,?,?,?) ");
+                
+                
+                for (int i=0; i<rows; i++){
+                    int  pid = (int)jTable1.getValueAt(i, 2);
+                    int sp = (int)jTable1.getValueAt(i, 3);
+                    int q = (int)jTable1.getValueAt(i, 4);
+                    int t = (int)jTable1.getValueAt(i, 5);
+                    
+                    
+                    pst.setInt(1, lastInsertId);
+                    pst.setInt(2, pid);
+                    pst.setInt(3, sp);
+                    pst.setInt(4, q);
+                    pst.setInt(5, t);
+                    
+                    pst.executeUpdate();
+                }
+                
+                
+                pst = con1.prepareStatement("update product set qty= qty-? where id=?");
+                
+                for (int i=0; i<rows; i++){
+                    int  pid = (int)jTable1.getValueAt(i, 2);
+                    int q = (int)jTable1.getValueAt(i, 4);
+                    
+                    
+                    pst.setInt(1, q);
+                    pst.setInt(2, pid);
+                    pst.execute();
+                }
+                
+                pst.addBatch();
+              
+                JOptionPane.showMessageDialog(null, "Record Saved!");
+                
+                DefaultTableModel d = (DefaultTableModel)jTable1.getModel();
+                for (int i=0; i<jTable1.getRowCount(); i++){
+                    d.removeRow(0);
+                }
+                int sum=0;
+                for(int i=0; i<jTable1.getRowCount(); i++){
+                    sum += Integer.parseInt(jTable1.getValueAt(i, 5).toString());
+                }
+                totaltxt.setText(Integer.toString(sum));
+                
+//                JOptionPane.showMessageDialog(null, "Category Added Successfully!");
+//                update_table();
+//                txtcat.setText("");
+//                txtcat.requestFocus();
+//                txtstatus.setSelectedIndex(0);
+
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(cashier_add.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(cashier_add.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
+    
+    public  void print(){
+        
+    }
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        sales();
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -611,14 +854,13 @@ public class POS extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bartxt;
+    private javax.swing.JComboBox<String> cashiertxt;
     private javax.swing.JLabel dateTXT;
     private javax.swing.JLabel idtxt;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -639,10 +881,11 @@ public class POS extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField needtxt;
+    private javax.swing.JComboBox<String> pay;
     private javax.swing.JLabel pricetxt;
     private javax.swing.JLabel prodtxt;
     private javax.swing.JLabel quantxt;
-    private javax.swing.JTextField totaltxt;
+    private javax.swing.JLabel totaltxt;
     private javax.swing.JLabel txtbrand;
     // End of variables declaration//GEN-END:variables
 }
