@@ -357,6 +357,12 @@ public class product extends javax.swing.JFrame {
 
         jLabel10.setText("Brand:");
 
+        txtbrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbrandActionPerformed(evt);
+            }
+        });
+
         jLabel11.setText("Cost price: ");
 
         txtcost.addActionListener(new java.awt.event.ActionListener() {
@@ -900,6 +906,10 @@ public class product extends javax.swing.JFrame {
     private void txtpriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtpriceActionPerformed
+
+    private void txtbrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbrandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbrandActionPerformed
 
     /**
      * @param args the command line arguments
