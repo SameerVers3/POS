@@ -7,6 +7,7 @@ package pos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -209,31 +210,36 @@ public class cashier_login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String user = txtuser.getText();
         String  pass = txtpass.getText();
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
+            pst = con1.prepareStatement("Select * from cashier Where fname='" + user + "' and pass='" + pass+ "'");
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) 
+   {
 
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/pos", "root", "");
-//            pst = con1.prepareStatement("insert into vendor (vendor, address, phone, status)values(?,?,?,?) ");
-//            pst.setString(1, vendor);
-//        }  catch (ClassNotFoundException ex) {
-//                Logger.getLogger(vendor.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(vendor.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        if (user.equals("sameer") && pass.equals("123")){
-//            catagorie ct = new catagorie();
-//            this.hide();
-//            ct.setVisible(true);
-//        }
-//        
-//        else{
-//            JOptionPane.showMessageDialog(null, "Username or password incorrect!");
-//            txtuser.setText("");
-//            txtpass.setText("");
-//            txtuser.requestFocus();
-//            
-//        }
+        POS p = new POS();
+        this.setVisible(false);
+        p.setVisible(true);
+   } 
+   else 
+   {
+       JOptionPane.showMessageDialog(null,"username and password are wrong ");
+   }
+            
+        }  catch (ClassNotFoundException ex) {
+                Logger.getLogger(vendor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(vendor.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"username and password are wrong ");
+            txtuser.setText("");
+            txtpass.setText("");
+            txtuser.requestFocus();
+        }
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked

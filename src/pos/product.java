@@ -401,6 +401,12 @@ public class product extends javax.swing.JFrame {
 
         jLabel9.setText("Category:");
 
+        txtcategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtcategoryActionPerformed(evt);
+            }
+        });
+
         jLabel10.setText("Brand:");
 
         txtbrand.addActionListener(new java.awt.event.ActionListener() {
@@ -979,6 +985,10 @@ public class product extends javax.swing.JFrame {
         this.hide();
         p.setVisible(true);
     }//GEN-LAST:event_jLabel45MouseClicked
+
+    private void txtcategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcategoryActionPerformed
 
     /**
      * @param args the command line arguments

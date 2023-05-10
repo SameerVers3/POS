@@ -202,7 +202,7 @@ public class login extends javax.swing.JFrame {
         String user = txtuser.getText();
         String  pass = txtpass.getText();
         
-        if (user.equals("Shaheer") && pass.equals("123")){
+        if (user.equals("SAAS") && pass.equals("123")){
             panel p = new panel();
             this.hide();
             p.setVisible(true);
@@ -222,6 +222,9 @@ public class login extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        cashier_login  c= new cashier_login();
+        this.hide();
+        c.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
