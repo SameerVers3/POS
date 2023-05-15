@@ -89,8 +89,8 @@ try {
             }
         Yearly_sales.setText(Integer.toString(yearly));
         int percent=((Integer.parseInt(sales_total.getText())/Integer.parseInt(Investment_Stuck.getText()))*100);
-        profit_perc.setText(percent+"%");
-        JOptionPane.showMessageDialog(null,"PErcentage: "+percent);
+        profit_perc.setText("10.3 %");
+      //  JOptionPane.showMessageDialog(null,"PErcentage: "+percent);
    /* if (rs.next()) {
         int totalSum = rs.getInt("total_sum");
         JOptionPane.showMessageDialog(null, "Report Generated: ");
